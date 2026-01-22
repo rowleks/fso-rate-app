@@ -1,8 +1,45 @@
-import { FlatList, View, StyleSheet, Text, Image } from "react-native";
+import { FlatList, View, StyleSheet, Image } from "react-native";
+
+import Text from "./Text";
+import theme from "../context/theme";
 
 const styles = StyleSheet.create({
   separator: {
     height: 10,
+  },
+  container: {
+    backgroundColor: theme.colors.background,
+  },
+  itemContainer: {
+    padding: 16,
+    gap: 16,
+  },
+  row: {
+    flexDirection: "row",
+    gap: 20,
+  },
+  avatar: {
+    width: 70,
+    height: 70,
+    borderRadius: 6,
+  },
+  infoContainer: {
+    flexShrink: 1,
+    gap: 8,
+  },
+  languageContainer: {
+    padding: 6,
+    backgroundColor: theme.colors.primary,
+    alignSelf: "flex-start",
+    borderRadius: 4,
+  },
+  metricsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  metricItem: {
+    gap: 6,
+    alignItems: "center",
   },
 });
 
@@ -81,57 +118,40 @@ const FlatListItem = ({ item }) => {
     }).format(num);
 
   return (
-    <View style={{ backgroundColor: "#fff" }}>
-      <View style={{ padding: 16, gap: 16 }}>
-        <View style={{ flexDirection: "row", gap: 20 }}>
+    <View style={styles.container}>
+      <View style={styles.itemContainer}>
+        <View style={styles.row}>
           <Image
             source={{ uri: item.ownerAvatarUrl }}
-            width={70}
-            height={70}
+            style={styles.avatar}
             resizeMode="cover"
-            style={{ borderRadius: 6 }}
           />
 
-          <View style={{ flexShrink: 1, gap: 8 }}>
-            <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+          <View style={styles.infoContainer}>
+            <Text fontWeight="bold" fontSize="heading">
               {item.fullName}
             </Text>
-            <Text
-              style={{
-                color: "gray",
-                fontSize: 16,
-              }}
-            >
+            <Text color="textSecondary" fontSize="subheading">
               {item.description}
             </Text>
 
-            <View
-              style={{
-                padding: 6,
-                backgroundColor: "#006ad4",
-                alignSelf: "flex-start",
-                borderRadius: 4,
-              }}
-            >
-              <Text style={{ color: "white", fontSize: 16 }}>
+            <View style={styles.languageContainer}>
+              <Text color="white" fontSize="subheading">
                 {item.language}
               </Text>
             </View>
           </View>
         </View>
 
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-around",
-          }}
-        >
+        <View style={styles.metricsContainer}>
           {metrics.map((m) => (
-            <View style={{ gap: 6, alignItems: "center" }} key={m.label}>
-              <Text style={{ fontWeight: 600, fontSize: 18 }}>
+            <View style={styles.metricItem} key={m.label}>
+              <Text fontWeight="bold" fontSize="heading">
                 {formatNumber(m.value)}
               </Text>
-              <Text style={{ color: "gray", fontSize: 16 }}>{m.label}</Text>
+              <Text color="textSecondary" fontSize="subheading">
+                {m.label}
+              </Text>
             </View>
           ))}
         </View>
