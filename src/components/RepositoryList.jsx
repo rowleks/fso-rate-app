@@ -1,4 +1,4 @@
-import { FlatList, View, StyleSheet, Text } from "react-native";
+import { FlatList, View, StyleSheet, Text, Image } from "react-native";
 
 const styles = StyleSheet.create({
   separator: {
@@ -54,15 +54,88 @@ const repositories = [
 ];
 
 const FlatListItem = ({ item }) => {
+  const metrics = [
+    {
+      label: "Stars",
+      value: item.stargazersCount,
+    },
+    {
+      label: "Forks",
+      value: item.forksCount,
+    },
+    {
+      label: "Reviews",
+      value: item.reviewCount,
+    },
+    {
+      label: "Rating",
+      value: item.ratingAverage,
+    },
+  ];
+
+  const formatNumber = (num) =>
+    new Intl.NumberFormat("en", {
+      notation: "compact",
+      compactDisplay: "short",
+      maximumFractionDigits: 1,
+    }).format(num);
+
   return (
-    <View>
-      <Text>Full Name: {item.fullName}</Text>
-      <Text>Description: {item.description}</Text>
-      <Text>Language: {item.language}</Text>
-      <Text>Forks: {item.forksCount}</Text>
-      <Text>Stars: {item.stargazersCount}</Text>
-      <Text>Reviews: {item.reviewCount}</Text>
-      <Text>Rating: {item.ratingAverage}</Text>
+    <View style={{ backgroundColor: "#fff" }}>
+      <View style={{ padding: 16, gap: 16 }}>
+        <View style={{ flexDirection: "row", gap: 20 }}>
+          <Image
+            source={{ uri: item.ownerAvatarUrl }}
+            width={70}
+            height={70}
+            resizeMode="cover"
+            style={{ borderRadius: 6 }}
+          />
+
+          <View style={{ flexShrink: 1, gap: 8 }}>
+            <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+              {item.fullName}
+            </Text>
+            <Text
+              style={{
+                color: "gray",
+                fontSize: 16,
+              }}
+            >
+              {item.description}
+            </Text>
+
+            <View
+              style={{
+                padding: 6,
+                backgroundColor: "#006ad4",
+                alignSelf: "flex-start",
+                borderRadius: 4,
+              }}
+            >
+              <Text style={{ color: "white", fontSize: 16 }}>
+                {item.language}
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-around",
+          }}
+        >
+          {metrics.map((m) => (
+            <View style={{ gap: 6, alignItems: "center" }} key={m.label}>
+              <Text style={{ fontWeight: 600, fontSize: 18 }}>
+                {formatNumber(m.value)}
+              </Text>
+              <Text style={{ color: "gray", fontSize: 16 }}>{m.label}</Text>
+            </View>
+          ))}
+        </View>
+      </View>
     </View>
   );
 };
@@ -75,7 +148,6 @@ const RepositoryList = () => {
       data={repositories}
       ItemSeparatorComponent={ItemSeparator}
       renderItem={FlatListItem}
-      // other props
     />
   );
 };
