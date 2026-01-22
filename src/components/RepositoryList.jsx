@@ -2,93 +2,48 @@ import { FlatList, View, StyleSheet, Image } from "react-native";
 
 import Text from "./Text";
 import theme from "../context/theme";
+import { repositories } from "../../utils/data";
+import { formatNumber } from "../../utils";
 
 const styles = StyleSheet.create({
   separator: {
-    height: 10,
+    height: theme.spacing.medium,
   },
   container: {
     backgroundColor: theme.colors.background,
   },
   itemContainer: {
-    padding: 16,
-    gap: 16,
+    padding: theme.spacing.medium,
+    gap: theme.spacing.medium,
   },
   row: {
     flexDirection: "row",
-    gap: 20,
+    gap: theme.spacing.large,
   },
   avatar: {
     width: 70,
     height: 70,
-    borderRadius: 6,
+    borderRadius: theme.borderRadius.small,
   },
   infoContainer: {
     flexShrink: 1,
-    gap: 8,
+    gap: theme.spacing.small,
   },
   languageContainer: {
-    padding: 6,
+    padding: theme.spacing.small,
     backgroundColor: theme.colors.primary,
     alignSelf: "flex-start",
-    borderRadius: 4,
+    borderRadius: theme.borderRadius.small,
   },
   metricsContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
   },
   metricItem: {
-    gap: 6,
+    gap: theme.spacing.small,
     alignItems: "center",
   },
 });
-
-const repositories = [
-  {
-    id: "jaredpalmer.formik",
-    fullName: "jaredpalmer/formik",
-    description: "Build forms in React, without the tears",
-    language: "TypeScript",
-    forksCount: 1589,
-    stargazersCount: 21553,
-    ratingAverage: 88,
-    reviewCount: 4,
-    ownerAvatarUrl: "https://avatars2.githubusercontent.com/u/4060187?v=4",
-  },
-  {
-    id: "rails.rails",
-    fullName: "rails/rails",
-    description: "Ruby on Rails",
-    language: "Ruby",
-    forksCount: 18349,
-    stargazersCount: 45377,
-    ratingAverage: 100,
-    reviewCount: 2,
-    ownerAvatarUrl: "https://avatars1.githubusercontent.com/u/4223?v=4",
-  },
-  {
-    id: "django.django",
-    fullName: "django/django",
-    description: "The Web framework for perfectionists with deadlines.",
-    language: "Python",
-    forksCount: 21015,
-    stargazersCount: 48496,
-    ratingAverage: 73,
-    reviewCount: 5,
-    ownerAvatarUrl: "https://avatars2.githubusercontent.com/u/27804?v=4",
-  },
-  {
-    id: "reduxjs.redux",
-    fullName: "reduxjs/redux",
-    description: "Predictable state container for JavaScript apps",
-    language: "TypeScript",
-    forksCount: 13902,
-    stargazersCount: 52869,
-    ratingAverage: 0,
-    reviewCount: 0,
-    ownerAvatarUrl: "https://avatars3.githubusercontent.com/u/13142323?v=4",
-  },
-];
 
 const FlatListItem = ({ item }) => {
   const metrics = [
@@ -109,13 +64,6 @@ const FlatListItem = ({ item }) => {
       value: item.ratingAverage,
     },
   ];
-
-  const formatNumber = (num) =>
-    new Intl.NumberFormat("en", {
-      notation: "compact",
-      compactDisplay: "short",
-      maximumFractionDigits: 1,
-    }).format(num);
 
   return (
     <View style={styles.container}>

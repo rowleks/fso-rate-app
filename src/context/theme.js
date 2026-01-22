@@ -5,6 +5,8 @@ const theme = {
     primary: "#0366d6",
     white: "#fff",
     background: "#fff",
+    backgroundSecondary: "#e2e5e8",
+    appBarBackground: "#24292e",
   },
   fontSizes: {
     body: 14,
@@ -17,6 +19,15 @@ const theme = {
   fontWeights: {
     normal: "400",
     bold: "700",
+  },
+  spacing: {
+    small: 6,
+    medium: 16,
+    large: 20,
+  },
+  borderRadius: {
+    small: 4,
+    medium: 6,
   },
 };
 

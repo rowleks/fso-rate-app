@@ -2,12 +2,13 @@ import Constants from "expo-constants";
 import { Text, StyleSheet, View } from "react-native";
 import RepositoryList from "./RepositoryList";
 import AppBar from "./AppBar";
+import theme from "../context/theme";
 
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     flexShrink: 1,
-    backgroundColor: "#e2e5e8",
+    backgroundColor: theme.colors.backgroundSecondary,
   },
 });
 
