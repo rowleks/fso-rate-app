@@ -1,6 +1,6 @@
 import { FlatList, View, StyleSheet, Image } from "react-native";
 
-import Text from "./Text";
+import Text from "../components/Text";
 import theme from "../context/theme";
 import { repositories } from "../../utils/data";
 import { formatNumber } from "../../utils";
