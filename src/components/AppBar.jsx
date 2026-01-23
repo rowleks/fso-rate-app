@@ -24,12 +24,12 @@ const AppBar = () => {
   return (
     <View style={styles.container}>
       <ScrollView horizontal contentContainerStyle={styles.tabsContainer}>
-        <Link to="/" onPress={() => console.log("Pressed")}>
+        <Link to="/">
           <Text color="white" fontWeight="bold" fontSize="heading">
             Repositories
           </Text>
         </Link>
-        <Link to="/signin" onPress={() => console.log("Pressed")}>
+        <Link to="/signin">
           <Text color="white" fontWeight="bold" fontSize="heading">
             Sign in
           </Text>
