@@ -5,6 +5,13 @@ import { ApolloProvider } from "@apollo/client";
 
 import Main from "./src/Main";
 import createApolloClient from "./utils/apolloClient";
+import { loadErrorMessages, loadDevMessages } from "@apollo/client/dev";
+
+if (__DEV__) {
+  // Adds messages only in a dev environment
+  loadDevMessages();
+  loadErrorMessages();
+}
 
 const apolloClient = createApolloClient();
 

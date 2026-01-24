@@ -27,6 +27,11 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     gap: theme.spacing.small,
   },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   languageContainer: {
     padding: theme.spacing.small,
     backgroundColor: theme.colors.primary,
@@ -107,3 +112,15 @@ export const FlatListItem = ({ item }) => {
 };
 
 export const ItemSeparator = () => <View style={styles.separator} />;
+
+export const LoadingIndicator = () => (
+  <View style={styles.loadingContainer}>
+    <Text>Loading...</Text>
+  </View>
+);
+
+export const NoItem = () => (
+  <View>
+    <Text>No Repositories Available</Text>
+  </View>
+);
