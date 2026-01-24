@@ -1,9 +1,7 @@
-import { FlatList, View, StyleSheet, Image } from "react-native";
-
-import Text from "../components/Text";
-import theme from "../context/theme";
-import { repositories } from "../../utils/data";
-import { formatNumber } from "../../utils";
+import { View, StyleSheet, Image } from "react-native";
+import theme from "../../context/theme";
+import Text from "../../components/Text";
+import { formatNumber } from "../../../utils";
 
 const styles = StyleSheet.create({
   separator: {
@@ -45,7 +43,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const FlatListItem = ({ item }) => {
+export const FlatListItem = ({ item }) => {
   const metrics = [
     {
       label: "Stars",
@@ -108,16 +106,4 @@ const FlatListItem = ({ item }) => {
   );
 };
 
-const ItemSeparator = () => <View style={styles.separator} />;
-
-const RepositoryList = () => {
-  return (
-    <FlatList
-      data={repositories}
-      ItemSeparatorComponent={ItemSeparator}
-      renderItem={FlatListItem}
-    />
-  );
-};
-
-export default RepositoryList;
+export const ItemSeparator = () => <View style={styles.separator} />;
