@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import theme from "../context/theme";
 import * as yup from "yup";
 import Text from "../components/Text";
+import { useSignIn } from "../hooks/useAuth";
 
 const styles = {
   container: {
@@ -29,14 +30,18 @@ const styles = {
 
 const SignIn = () => {
   const [focusField, setFocusField] = useState(null);
+  const { signIn } = useSignIn();
   const initialValues = { username: "", password: "" };
 
-  const onSubmit = (values) => {
-    const trimedValues = {
-      username: values.username.trim(),
-      password: values.password,
-    };
-    console.log(trimedValues);
+  const onSubmit = async (values) => {
+    const { username, password } = values;
+
+    try {
+      const data = await signIn({ username, password });
+      console.log(data);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const validationSchema = yup.object().shape({
