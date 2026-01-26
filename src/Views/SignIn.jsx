@@ -5,6 +5,8 @@ import theme from "../context/theme";
 import * as yup from "yup";
 import Text from "../components/Text";
 import { useSignIn } from "../hooks/useAuth";
+import useAuthStorage from "../hooks/useAuthStorage";
+import { useNavigate } from "react-router-native";
 
 const styles = {
   container: {
@@ -31,14 +33,16 @@ const styles = {
 const SignIn = () => {
   const [focusField, setFocusField] = useState(null);
   const { signIn } = useSignIn();
+  const navigate = useNavigate();
+
   const initialValues = { username: "", password: "" };
 
   const onSubmit = async (values) => {
     const { username, password } = values;
 
     try {
-      const data = await signIn({ username, password });
-      console.log(data);
+      await signIn({ username, password });
+      navigate("/");
     } catch (e) {
       console.log(e);
     }
@@ -56,6 +60,7 @@ const SignIn = () => {
   });
 
   const formik = useFormik({ initialValues, onSubmit, validationSchema });
+
   return (
     <View style={styles.container}>
       <View style={styles.formContainer}>

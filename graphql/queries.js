@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GET_REPOSITORIES = gql`
-  query {
+  query Repositories {
     repositories {
       edges {
         node {
@@ -16,6 +16,14 @@ export const GET_REPOSITORIES = gql`
           ownerAvatarUrl
         }
       }
+    }
+  }
+`;
+
+export const GET_AUTH_USER = gql`
+  query Me {
+    me {
+      username
     }
   }
 `;
