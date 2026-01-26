@@ -2,7 +2,10 @@ import { View, StyleSheet, Pressable, ScrollView } from "react-native";
 import Constants from "expo-constants";
 import Text from "./Text";
 import theme from "../context/theme";
-import { Link } from "react-router-native";
+import { Link, useNavigate } from "react-router-native";
+import { useQuery } from "@apollo/client";
+import { GET_AUTH_USER } from "../../graphql/queries";
+import { useAuth } from "../hooks/useAuth";
 
 const styles = StyleSheet.create({
   container: {
@@ -21,6 +24,19 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
+  const { data } = useQuery(GET_AUTH_USER, {
+    fetchPolicy: "no-cache",
+  });
+  const { signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const user = data?.me?.username || "";
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView horizontal contentContainerStyle={styles.tabsContainer}>
@@ -29,11 +45,24 @@ const AppBar = () => {
             Repositories
           </Text>
         </Link>
-        <Link to="/signin">
-          <Text color="white" fontWeight="bold" fontSize="heading">
-            Sign in
-          </Text>
-        </Link>
+        {!user ? (
+          <Link to="/signin">
+            <Text color="white" fontWeight="bold" fontSize="heading">
+              Sign in
+            </Text>
+          </Link>
+        ) : (
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 20 }}>
+            <Text color="white" style={{ textTransform: "capitalize" }}>
+              Welcome {user}
+            </Text>
+            <Link onPress={handleSignOut}>
+              <Text color="error" fontWeight="bold" fontSize="heading">
+                Sign Out
+              </Text>
+            </Link>
+          </View>
+        )}
       </ScrollView>
     </View>
   );

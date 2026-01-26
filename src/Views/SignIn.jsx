@@ -4,8 +4,7 @@ import { useFormik } from "formik";
 import theme from "../context/theme";
 import * as yup from "yup";
 import Text from "../components/Text";
-import { useSignIn } from "../hooks/useAuth";
-import useAuthStorage from "../hooks/useAuthStorage";
+import { useAuth, useSignIn } from "../hooks/useAuth";
 import { useNavigate } from "react-router-native";
 
 const styles = {
@@ -32,7 +31,7 @@ const styles = {
 
 const SignIn = () => {
   const [focusField, setFocusField] = useState(null);
-  const { signIn } = useSignIn();
+  const { signIn } = useAuth();
   const navigate = useNavigate();
 
   const initialValues = { username: "", password: "" };

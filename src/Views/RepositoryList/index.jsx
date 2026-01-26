@@ -8,12 +8,17 @@ import {
   NoItem,
 } from "./FlatListItem";
 import useRepositories from "../../hooks/useRepositories";
+import Text from "../../components/Text";
 
 const RepositoryList = () => {
-  const { repositories, loading } = useRepositories();
+  const { repositories, loading, error } = useRepositories();
 
   if (loading) {
     return <LoadingIndicator />;
+  }
+
+  if (error) {
+    return <Text>Error: {error.message}</Text>;
   }
 
   return (
