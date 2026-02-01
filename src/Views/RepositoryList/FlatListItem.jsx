@@ -69,7 +69,7 @@ export const FlatListItem = ({ item }) => {
   ];
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="repositoryItem">
       <View style={styles.itemContainer}>
         <View style={styles.row}>
           <Image
