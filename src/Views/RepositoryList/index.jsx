@@ -7,7 +7,7 @@ import {
   LoadingIndicator,
   NoItem,
 } from "./FlatListItem";
-import useRepositories from "../../hooks/useRepositories";
+import { useRepositories } from "../../hooks/useRepositories";
 import Text from "../../components/Text";
 
 const RepositoryList = () => {
@@ -25,7 +25,7 @@ const RepositoryList = () => {
     <FlatList
       data={repositories}
       ItemSeparatorComponent={ItemSeparator}
-      renderItem={FlatListItem}
+      renderItem={({ item }) => <FlatListItem item={item} />}
       keyExtractor={(item) => item.id.toString()}
       ListEmptyComponent={NoItem}
       contentContainerStyle={

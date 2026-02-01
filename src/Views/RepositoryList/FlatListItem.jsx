@@ -1,7 +1,15 @@
-import { View, StyleSheet, Image } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  Button,
+  Pressable,
+  Linking,
+} from "react-native";
 import theme from "../../context/theme";
 import Text from "../../components/Text";
 import { formatNumber } from "../../../utils";
+import { useNavigate } from "react-router-native";
 
 const styles = StyleSheet.create({
   separator: {
@@ -48,7 +56,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export const FlatListItem = ({ item }) => {
+export const FlatListItem = ({ item, singleView }) => {
+  const navigate = useNavigate();
   const metrics = [
     {
       label: "Stars",
@@ -68,9 +77,19 @@ export const FlatListItem = ({ item }) => {
     },
   ];
 
+  const handleOpenInGitHub = () => {
+    if (item.url) {
+      Linking.openURL(item.url).catch((e) => console.log(e));
+    }
+  };
+
   return (
     <View style={styles.container} testID="repositoryItem">
-      <View style={styles.itemContainer}>
+      <Pressable
+        disabled={singleView}
+        onPress={() => navigate(`/repository/${item.id}`)}
+        style={styles.itemContainer}
+      >
         <View style={styles.row}>
           <Image
             source={{ uri: item.ownerAvatarUrl }}
@@ -106,7 +125,13 @@ export const FlatListItem = ({ item }) => {
             </View>
           ))}
         </View>
-      </View>
+
+        {singleView && (
+          <View>
+            <Button title="Open in GitHub" onPress={handleOpenInGitHub} />
+          </View>
+        )}
+      </Pressable>
     </View>
   );
 };
