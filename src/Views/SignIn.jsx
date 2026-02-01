@@ -29,23 +29,9 @@ const styles = {
   },
 };
 
-const SignIn = () => {
+export const SignInContainer = ({ onSubmit }) => {
   const [focusField, setFocusField] = useState(null);
-  const { signIn } = useAuth();
-  const navigate = useNavigate();
-
   const initialValues = { username: "", password: "" };
-
-  const onSubmit = async (values) => {
-    const { username, password } = values;
-
-    try {
-      await signIn({ username, password });
-      navigate("/");
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   const validationSchema = yup.object().shape({
     username: yup
@@ -112,6 +98,24 @@ const SignIn = () => {
       </View>
     </View>
   );
+};
+
+const SignIn = () => {
+  const { signIn } = useAuth();
+  const navigate = useNavigate();
+
+  const onSubmit = async (values) => {
+    const { username, password } = values;
+
+    try {
+      await signIn({ username, password });
+      navigate("/");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  return <SignInContainer onSubmit={onSubmit} />;
 };
 
 export default SignIn;
