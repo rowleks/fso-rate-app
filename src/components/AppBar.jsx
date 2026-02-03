@@ -21,6 +21,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     flexGrow: 1,
   },
+
+  linkContainer: { flexDirection: "row", alignItems: "center", gap: 20 },
 });
 
 const AppBar = () => {
@@ -47,13 +49,20 @@ const AppBar = () => {
         </Link>
 
         {!user ? (
-          <Link to="/signin">
-            <Text color="white" fontWeight="bold" fontSize="heading">
-              Sign in
-            </Text>
-          </Link>
+          <View style={styles.linkContainer}>
+            <Link to="/signin">
+              <Text color="white" fontWeight="bold" fontSize="heading">
+                Sign In
+              </Text>
+            </Link>
+            <Link to="/signup">
+              <Text color="white" fontWeight="bold" fontSize="heading">
+                Sign Up
+              </Text>
+            </Link>
+          </View>
         ) : (
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 20 }}>
+          <View style={styles.linkContainer}>
             <Link to="/create-review">
               <Text color="white" fontWeight="bold" fontSize="heading">
                 Create Review
