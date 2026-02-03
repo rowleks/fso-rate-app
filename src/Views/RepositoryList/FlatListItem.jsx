@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export const FlatListItem = ({ item, singleView }) => {
+export const RepositoryInfo = ({ item, singleView }) => {
   const navigate = useNavigate();
   const metrics = [
     {

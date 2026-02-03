@@ -1,11 +1,10 @@
 import { FlatList } from "react-native";
 
-// import { repositories } from "../../../utils/data";
 import {
-  FlatListItem,
   ItemSeparator,
   LoadingIndicator,
   NoItem,
+  RepositoryInfo,
 } from "./FlatListItem";
 import { useRepositories } from "../../hooks/useRepositories";
 import Text from "../../components/Text";
@@ -25,8 +24,8 @@ const RepositoryList = () => {
     <FlatList
       data={repositories}
       ItemSeparatorComponent={ItemSeparator}
-      renderItem={({ item }) => <FlatListItem item={item} />}
-      keyExtractor={(item) => item.id.toString()}
+      renderItem={({ item }) => <RepositoryInfo item={item} />}
+      keyExtractor={({ id }) => id}
       ListEmptyComponent={NoItem}
       contentContainerStyle={
         !repositories.length && {
