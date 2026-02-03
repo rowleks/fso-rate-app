@@ -45,6 +45,7 @@ const AppBar = () => {
             Repositories
           </Text>
         </Link>
+
         {!user ? (
           <Link to="/signin">
             <Text color="white" fontWeight="bold" fontSize="heading">
@@ -53,9 +54,11 @@ const AppBar = () => {
           </Link>
         ) : (
           <View style={{ flexDirection: "row", alignItems: "center", gap: 20 }}>
-            <Text color="white" style={{ textTransform: "capitalize" }}>
-              Welcome {user}
-            </Text>
+            <Link to="/create-review">
+              <Text color="white" fontWeight="bold" fontSize="heading">
+                Create Review
+              </Text>
+            </Link>
             <Link onPress={handleSignOut}>
               <Text color="error" fontWeight="bold" fontSize="heading">
                 Sign Out

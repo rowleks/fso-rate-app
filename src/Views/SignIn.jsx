@@ -1,11 +1,10 @@
-import { useState } from "react";
-import { Button, TextInput, View } from "react-native";
+import { Button, View } from "react-native";
 import { useFormik } from "formik";
 import theme from "../context/theme";
 import * as yup from "yup";
-import Text from "../components/Text";
-import { useAuth, useSignIn } from "../hooks/useAuth";
+import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-native";
+import FormikTextInput from "../components/FormikTextInput";
 
 const styles = {
   container: {
@@ -30,7 +29,6 @@ const styles = {
 };
 
 export const SignInContainer = ({ onSubmit }) => {
-  const [focusField, setFocusField] = useState(null);
   const initialValues = { username: "", password: "" };
 
   const validationSchema = yup.object().shape({
@@ -49,51 +47,17 @@ export const SignInContainer = ({ onSubmit }) => {
   return (
     <View style={styles.container}>
       <View style={styles.formContainer}>
-        <TextInput
+        <FormikTextInput
+          formik={formik}
+          name="username"
           placeholder="Username"
-          value={formik.values.username}
-          onChangeText={formik.handleChange("username")}
-          onFocus={() => setFocusField("username")}
-          onBlur={(e) => {
-            setFocusField(null);
-            formik.handleBlur("username")(e);
-          }}
-          style={[
-            styles.input,
-            formik.touched.username &&
-              formik.errors.username &&
-              focusField !== "username" &&
-              styles.inputError,
-          ]}
         />
-        {formik.touched.username &&
-          formik.errors.username &&
-          focusField !== "username" && (
-            <Text color="error">{formik.errors.username}</Text>
-          )}
-        <TextInput
+        <FormikTextInput
+          formik={formik}
+          name="password"
           placeholder="Password"
           secureTextEntry
-          value={formik.values.password}
-          onChangeText={formik.handleChange("password")}
-          onFocus={() => setFocusField("password")}
-          onBlur={(e) => {
-            setFocusField(null);
-            formik.handleBlur("password")(e);
-          }}
-          style={[
-            styles.input,
-            formik.touched.password &&
-              formik.errors.password &&
-              focusField !== "password" &&
-              styles.inputError,
-          ]}
         />
-        {formik.touched.password &&
-          formik.errors.password &&
-          focusField !== "password" && (
-            <Text color="error">{formik.errors.password}</Text>
-          )}
         <Button title="Sign In" onPress={formik.handleSubmit} />
       </View>
     </View>
