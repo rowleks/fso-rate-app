@@ -40,6 +40,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  noItemContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   languageContainer: {
     padding: theme.spacing.small,
     backgroundColor: theme.colors.primary,
@@ -145,7 +150,7 @@ export const LoadingIndicator = () => (
 );
 
 export const NoItem = () => (
-  <View>
+  <View style={styles.noItemContainer}>
     <Text>No Repositories Available</Text>
   </View>
 );

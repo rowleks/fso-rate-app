@@ -10,9 +10,13 @@ import {
 import { useRepositories } from "../../hooks/useRepositories";
 import SortPicker from "../../components/SortPicker";
 import Text from "../../components/Text";
+import SearchBar from "../../components/SearchBar";
+import { useDebounce } from "use-debounce";
 
 const RepositoryList = () => {
   const [selectedSort, setSelectedSort] = useState("latest");
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [debouncedQuery] = useDebounce(searchKeyword, 500);
 
   let orderBy = "CREATED_AT";
   let orderDirection = "DESC";
@@ -31,11 +35,8 @@ const RepositoryList = () => {
   const { repositories, loading, error } = useRepositories({
     orderBy,
     orderDirection,
+    searchKeyword: debouncedQuery,
   });
-
-  if (loading) {
-    return <LoadingIndicator />;
-  }
 
   if (error) {
     return <Text>Error: {error.message}</Text>;
@@ -46,21 +47,20 @@ const RepositoryList = () => {
       data={repositories}
       ItemSeparatorComponent={ItemSeparator}
       ListHeaderComponent={
-        <SortPicker
-          selectedValue={selectedSort}
-          onValueChange={setSelectedSort}
-        />
+        <>
+          <SearchBar
+            searchQuery={searchKeyword}
+            setSearchQuery={setSearchKeyword}
+          />
+          <SortPicker
+            selectedValue={selectedSort}
+            onValueChange={setSelectedSort}
+          />
+        </>
       }
       renderItem={({ item }) => <RepositoryInfo item={item} />}
       keyExtractor={({ id }) => id}
-      ListEmptyComponent={NoItem}
-      contentContainerStyle={
-        !repositories.length && {
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }
-      }
+      ListEmptyComponent={loading ? LoadingIndicator : NoItem}
     />
   );
 };
