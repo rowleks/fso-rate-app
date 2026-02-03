@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { FlatList } from "react-native";
 
 import {
@@ -7,10 +8,30 @@ import {
   RepositoryInfo,
 } from "./FlatListItem";
 import { useRepositories } from "../../hooks/useRepositories";
+import SortPicker from "../../components/SortPicker";
 import Text from "../../components/Text";
 
 const RepositoryList = () => {
-  const { repositories, loading, error } = useRepositories();
+  const [selectedSort, setSelectedSort] = useState("latest");
+
+  let orderBy = "CREATED_AT";
+  let orderDirection = "DESC";
+
+  switch (selectedSort) {
+    case "highest":
+      orderBy = "RATING_AVERAGE";
+      orderDirection = "DESC";
+      break;
+    case "lowest":
+      orderBy = "RATING_AVERAGE";
+      orderDirection = "ASC";
+      break;
+  }
+
+  const { repositories, loading, error } = useRepositories({
+    orderBy,
+    orderDirection,
+  });
 
   if (loading) {
     return <LoadingIndicator />;
@@ -24,6 +45,12 @@ const RepositoryList = () => {
     <FlatList
       data={repositories}
       ItemSeparatorComponent={ItemSeparator}
+      ListHeaderComponent={
+        <SortPicker
+          selectedValue={selectedSort}
+          onValueChange={setSelectedSort}
+        />
+      }
       renderItem={({ item }) => <RepositoryInfo item={item} />}
       keyExtractor={({ id }) => id}
       ListEmptyComponent={NoItem}
