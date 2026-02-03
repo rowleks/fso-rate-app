@@ -12,14 +12,13 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     height: 56 + Constants.statusBarHeight,
     backgroundColor: theme.colors.appBarBackground,
-    paddingHorizontal: theme.spacing.medium,
   },
 
   tabsContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-around",
-    flexGrow: 1,
+    gap: theme.spacing.medium,
+    paddingHorizontal: theme.spacing.medium,
   },
 
   linkContainer: { flexDirection: "row", alignItems: "center", gap: 20 },
@@ -44,7 +43,7 @@ const AppBar = () => {
       <ScrollView horizontal contentContainerStyle={styles.tabsContainer}>
         <Link to="/">
           <Text color="white" fontWeight="bold" fontSize="heading">
-            Repositories
+            Repos
           </Text>
         </Link>
 
@@ -68,11 +67,16 @@ const AppBar = () => {
                 Create Review
               </Text>
             </Link>
-            <Link onPress={handleSignOut}>
+            <Link to="/reviews">
+              <Text color="white" fontWeight="bold" fontSize="heading">
+                My Reviews
+              </Text>
+            </Link>
+            <Pressable onPress={handleSignOut}>
               <Text color="error" fontWeight="bold" fontSize="heading">
                 Sign Out
               </Text>
-            </Link>
+            </Pressable>
           </View>
         )}
       </ScrollView>
