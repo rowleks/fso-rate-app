@@ -1,14 +1,21 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Alert } from "react-native";
 import theme from "../../context/theme";
 import Text from "../../components/Text";
 import { format } from "date-fns";
+import { Button } from "react-native-paper";
+import { useNavigate } from "react-router-native";
+import { useDeleteReview } from "../../hooks/useReview";
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
     padding: theme.spacing.medium,
     gap: theme.spacing.medium,
     backgroundColor: theme.colors.white,
+  },
+
+  reviewContainer: {
+    flexDirection: "row",
+    gap: theme.spacing.medium,
   },
 
   ratingContainer: {
@@ -31,6 +38,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
+  reviewActionsContainer: {
+    flexDirection: "row",
+    gap: theme.spacing.medium,
+    justifyContent: "space-evenly",
+  },
+
   user: {
     fontSize: theme.fontSizes.subheading,
     fontWeight: theme.fontWeights.bold,
@@ -43,25 +56,84 @@ const styles = StyleSheet.create({
   },
 });
 
-const RepositoryReview = ({ item }) => {
+const ReviewActions = ({ repositoryId, reviewId }) => {
+  const navigate = useNavigate();
+  const deleteReview = useDeleteReview();
+
+  const handleDelete = () => {
+    Alert.alert(
+      "Delete review",
+      "Are you sure you want to delete this review?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          onPress: async () => {
+            try {
+              await deleteReview(reviewId);
+            } catch (e) {
+              console.log(e);
+            }
+          },
+          style: "destructive",
+        },
+      ],
+      {
+        cancelable: true,
+      },
+    );
+  };
+
+  return (
+    <View style={styles.reviewActionsContainer}>
+      <Button
+        icon="eye"
+        mode="contained"
+        buttonColor={theme.colors.primary}
+        onPress={() => navigate(`/repository/${repositoryId}`)}
+      >
+        View repository
+      </Button>
+      <Button
+        icon="delete"
+        mode="contained"
+        buttonColor={theme.colors.error}
+        onPress={handleDelete}
+      >
+        Delete
+      </Button>
+    </View>
+  );
+};
+
+const RepositoryReview = ({ item, singleReview = false }) => {
   return (
     <>
       <View style={styles.container}>
-        <View style={styles.ratingContainer}>
-          <Text style={styles.rating}>{item.rating}</Text>
+        <View style={styles.reviewContainer}>
+          <View style={styles.ratingContainer}>
+            <Text style={styles.rating}>{item.rating}</Text>
+          </View>
+
+          <View style={styles.detailsContainer}>
+            <View>
+              <Text style={styles.user}>{item.user.username}</Text>
+              <Text style={styles.createdAt}>
+                {format(item.createdAt, "dd-MM-yyyy")}
+              </Text>
+            </View>
+            <View>
+              <Text>{item.text}</Text>
+            </View>
+          </View>
         </View>
 
-        <View style={styles.detailsContainer}>
-          <View>
-            <Text style={styles.user}>{item.user.username}</Text>
-            <Text style={styles.createdAt}>
-              {format(item.createdAt, "dd-MM-yyyy")}
-            </Text>
-          </View>
-          <View>
-            <Text>{item.text}</Text>
-          </View>
-        </View>
+        {singleReview && (
+          <ReviewActions repositoryId={item.repositoryId} reviewId={item.id} />
+        )}
       </View>
     </>
   );
