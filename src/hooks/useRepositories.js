@@ -28,14 +28,30 @@ const useRepositories = (variables) => {
   return { loading, error, repositories, fetchMore: handleFetchMore };
 };
 
-const useRepository = (id) => {
-  const { loading, error, data } = useQuery(GET_REPOSITORY, {
-    variables: { repositoryId: id },
+const useRepository = (variables) => {
+  const { loading, error, data, fetchMore } = useQuery(GET_REPOSITORY, {
+    variables,
     fetchPolicy: "cache-and-network",
   });
 
+  const handleFetchMore = () => {
+    const canFetchMore =
+      !loading && data?.repository?.reviews?.pageInfo.hasNextPage;
+
+    if (!canFetchMore) {
+      return;
+    }
+
+    fetchMore({
+      variables: {
+        after: data.repository.reviews.pageInfo.endCursor,
+        ...variables,
+      },
+    });
+  };
+
   const repository = data ? data.repository : null;
-  return { loading, error, repository };
+  return { loading, error, repository, fetchMore: handleFetchMore };
 };
 
 export { useRepository, useRepositories };

@@ -15,7 +15,10 @@ const styles = StyleSheet.create({
 
 const singleRepository = () => {
   const { repositoryId } = useParams();
-  const { repository, loading, error } = useRepository(repositoryId);
+  const { repository, loading, error, fetchMore } = useRepository({
+    repositoryId,
+    first: 2,
+  });
 
   if (loading) {
     return (
@@ -28,7 +31,7 @@ const singleRepository = () => {
   if (!repository) {
     return (
       <View style={styles.container}>
-        <Text>Repository not found</Text>;
+        <Text>Repository not found</Text>
       </View>
     );
   }
@@ -48,6 +51,8 @@ const singleRepository = () => {
   return (
     <FlatList
       data={reviews}
+      onEndReached={() => fetchMore()}
+      onEndReachedThreshold={0.5}
       renderItem={({ item }) => <RepositoryReview item={item} />}
       keyExtractor={({ id }) => id}
       ListHeaderComponent={() => (
