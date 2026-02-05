@@ -32,8 +32,9 @@ const RepositoryList = () => {
       break;
   }
 
-  const { repositories, loading, error } = useRepositories({
+  const { repositories, loading, error, fetchMore } = useRepositories({
     orderBy,
+    first: 3,
     orderDirection,
     searchKeyword: debouncedQuery,
   });
@@ -46,6 +47,8 @@ const RepositoryList = () => {
     <FlatList
       data={repositories}
       ItemSeparatorComponent={ItemSeparator}
+      onEndReached={() => fetchMore()}
+      onEndReachedThreshold={0.5}
       ListHeaderComponent={
         <>
           <SearchBar
